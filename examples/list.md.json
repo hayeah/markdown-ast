@@ -1,0 +1,82 @@
+[
+  {
+    "type": "section",
+    "children": [
+      {
+        "type": "paragraph",
+        "text": "Unordered List"
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          {
+            "type": "list-item",
+            "children": [
+              {
+                "type": "text",
+                "text": "a"
+              }
+            ]
+          },
+          {
+            "type": "list-item",
+            "children": [
+              {
+                "type": "text",
+                "text": "b"
+              }
+            ]
+          },
+          {
+            "type": "list-item",
+            "children": [
+              {
+                "type": "text",
+                "text": "c"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "Ordered List"
+      },
+      {
+        "type": "list",
+        "ordered": true,
+        "items": [
+          {
+            "type": "list-item",
+            "children": [
+              {
+                "type": "text",
+                "text": "a"
+              }
+            ]
+          },
+          {
+            "type": "list-item",
+            "children": [
+              {
+                "type": "text",
+                "text": "b"
+              }
+            ]
+          },
+          {
+            "type": "list-item",
+            "children": [
+              {
+                "type": "text",
+                "text": "c"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "id": "_top"
+  }
+]

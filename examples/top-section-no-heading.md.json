@@ -1,0 +1,28 @@
+[
+  {
+    "type": "section",
+    "children": [
+      {
+        "type": "paragraph",
+        "text": "Start content with no heading"
+      }
+    ],
+    "id": "_top"
+  },
+  {
+    "type": "section",
+    "children": [
+      {
+        "id": "second-section",
+        "type": "heading",
+        "depth": 1,
+        "text": "Second Section"
+      },
+      {
+        "type": "paragraph",
+        "text": "content for second section"
+      }
+    ],
+    "id": "second-section"
+  }
+]
