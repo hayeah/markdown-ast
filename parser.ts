@@ -35,7 +35,7 @@ function _parse(tokens: tk.Token[]): ast.Section[] {
   }
 
   function peekToken(): tk.Token {
-    if(tokens.length == 0) {
+    if (tokens.length == 0) {
       return null;
     }
     return tokens[tokens.length - 1];
@@ -58,7 +58,7 @@ function _parse(tokens: tk.Token[]): ast.Section[] {
 
   function parseList(): ast.List {
     // "list_start"
-    let {ordered} = <tk.ListStart> popToken();
+    let {ordered} = <tk.ListStart>popToken();
 
 
     let items = [];
@@ -98,7 +98,7 @@ function _parse(tokens: tk.Token[]): ast.Section[] {
     let content: Node[] = [];
 
     if (token.type === tk.Types.heading) {
-      let headingToken = <tk.Heading> token;
+      let headingToken = <tk.Heading>token;
       heading = parseHeading();
       id = heading.id;
       content.push(heading);
@@ -106,7 +106,7 @@ function _parse(tokens: tk.Token[]): ast.Section[] {
       id = "_top";
     }
 
-    parseContent(ast.NodeTypes.heading,content);
+    parseContent(ast.NodeTypes.heading, content);
 
     return {
       type: NodeTypes.section,
@@ -116,7 +116,7 @@ function _parse(tokens: tk.Token[]): ast.Section[] {
   }
 
   function parseHeading(): ast.Heading {
-    let token  = <tk.Heading> tokens.pop();
+    let token = <tk.Heading>tokens.pop();
     let id = ensureUnique(token.text)
 
     return {
@@ -128,7 +128,7 @@ function _parse(tokens: tk.Token[]): ast.Section[] {
   }
 
   function parseParagraph(): ast.Paragraph {
-    let token  = <tk.Paragraph> tokens.pop();
+    let token = <tk.Paragraph>tokens.pop();
 
     return {
       type: "paragraph",
@@ -138,34 +138,34 @@ function _parse(tokens: tk.Token[]): ast.Section[] {
 
   function parseContent(endType: string, content: ast.Children = []): ast.Children {
     // let content: Node[] = [];
-    while(true) {
+    while (true) {
       let token = peekToken();
 
-      if(token == null) {
+      if (token == null) {
         return content;
       }
 
-      if(token.type == endType) {
+      if (token.type == endType) {
         return content
       }
 
       // wtf? get rid of space
-      if(token.type === "space") {
+      if (token.type === "space") {
         tokens.pop();
         continue;
       }
 
       if (tk.isListStartToken(token)) {
         content.push(parseList());
-      } else if(tk.isText(token)) {
+      } else if (tk.isText(token)) {
         tokens.pop();
         let children = parseInline(token.text);
         content.push(...children);
-      } else if(token.type === tk.Types.paragraph) {
+      } else if (token.type === tk.Types.paragraph) {
         content.push(parseParagraph());
-      } else if(token.type === tk.Types.heading) {
+      } else if (token.type === tk.Types.heading) {
         content.push(parseHeading());
-      } else if(token.type === tk.Types.blockquote_start) {
+      } else if (token.type === tk.Types.blockquote_start) {
         content.push(parseBlockQuote());
       } else {
         content.push(tokens.pop());

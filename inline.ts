@@ -1,6 +1,6 @@
 const marked = require("marked");
 
-import * as ast from "./Ast";
+import * as ast from "./ast";
 
 let options = Object.assign(marked.defaults,{xhtml: true});
 let inlineLexer = new marked.InlineLexer([],options);
@@ -9,12 +9,12 @@ inlineLexer.outputAST = outputAST;
 
 type InlineItem = ast.Node | string;
 
-export function parseInline(src: string): InlineItem[] {
+export function parseInline(src: string): ast.Children {
   return inlineLexer.outputAST(src);
 }
 
-function outputAST(src: string): InlineItem[] {
-  var items: InlineItem[] = [];
+function outputAST(src: string): ast.Children {
+  var items: ast.Children = [];
 
   var out: string = '';
   var link
