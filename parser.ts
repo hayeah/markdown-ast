@@ -11,11 +11,11 @@ import {parseInline} from "./inline";
 import {Node} from "./ast";
 const {NodeTypes} = ast;
 
-export default compile;
+export default parse;
 
-export function compile(src: string): ast.Section[] {
+export function parse(src: string): ast.Section[] {
   let tokens = tokenize(src);
-  let sections = parse(tokens);
+  let sections = _parse(tokens);
   return sections;
 }
 
@@ -23,7 +23,7 @@ export function tokenize(md: string): tk.Token[] {
   return lexer(md);
 }
 
-export function parse(tokens: tk.Token[]): ast.Section[] {
+function _parse(tokens: tk.Token[]): ast.Section[] {
   let sections: ast.Section[] = [];
 
   let ensureUnique = makeEnsureUnique();

@@ -3,7 +3,7 @@ const glob = require("glob");
 import * as os from "nolang/os";
 import * as io from "nolang/io";
 
-import {compile} from "./markdown";
+import {compile} from "./parser";
 
 import * as path from "path";
 
