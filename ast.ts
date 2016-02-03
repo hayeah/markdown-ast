@@ -1,41 +1,5 @@
 // Abstract Sytnax Tree for Markdown Document
 
-export const TokenTypes = {
-  heading: "heading",
-  list_start: "list_start",
-  list_end: "list_end",
-
-  list_item_start: "list_item_start",
-  loose_item_start: "loose_item_start",
-  list_item_end: "list_item_end",
-
-  blockquote_start: "blockquote_start",
-  blockquote_end: "blockquote_end",
-};
-
-export interface Token {
-  type: string,
-}
-
-export interface HeadingToken extends Token {
-  depth: number,
-  text: string,
-}
-
-export interface ListStartToken extends Token {
-  ordered: boolean,
-}
-
-export function isListStartToken(token: Token): token is ListStartToken {
-  return token.type == TokenTypes.list_start;
-}
-
-export interface ListItemStartToken extends Token {}
-
-export function isListItemStartToken(token: Token): token is ListItemStartToken {
-  return token.type == TokenTypes.list_item_start || token.type == TokenTypes.loose_item_start;
-}
-
 export interface Node {
   type: string,
 }
@@ -73,7 +37,15 @@ export function isTextNode(o: any): o is TextNode {
   return o.text != null;
 }
 
-export type Paragraph = TextNode;
+export type InlineItem = Node | string;
+
+export interface BlockNode extends Node {
+  children: InlineItem[],
+}
+
+export interface Paragraph extends BlockNode {
+  type: "paragraph",
+};
 
 export type KeyNode = TextNode | IdNode;
 

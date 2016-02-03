@@ -4,8 +4,12 @@ let {lexer} = require("marked");
 let {makeEnsureUnique} = require("./utils");
 
 import * as ast from "./ast";
-import {Node, Token} from "./ast";
-const {NodeTypes, TokenTypes} = ast;
+import * as tk from "./token";
+
+import {parseInline} from "./inline";
+
+import {Node} from "./ast";
+const {NodeTypes} = ast;
 
 export default compile;
 
@@ -15,22 +19,22 @@ export function compile(src: string): ast.Section[] {
   return sections;
 }
 
-export function tokenize(md: string): ast.Token[] {
+export function tokenize(md: string): tk.Token[] {
   return lexer(md);
 }
 
-export function parse(tokens: ast.Token[]): ast.Section[] {
+export function parse(tokens: tk.Token[]): ast.Section[] {
   let sections: ast.Section[] = [];
 
   let ensureUnique = makeEnsureUnique();
 
   // dup tokens
   tokens = tokens.reverse();
-  function popToken(): Token {
+  function popToken(): tk.Token {
     return tokens.pop();
   }
 
-  function peekToken(): Token {
+  function peekToken(): tk.Token {
     if(tokens.length == 0) {
       return null;
     }
@@ -40,7 +44,7 @@ export function parse(tokens: ast.Token[]): ast.Section[] {
   function parseListItem(): ast.ListItem {
     popToken(); // "list_item_start"
 
-    let children = parseContent(TokenTypes.list_item_end);
+    let children = parseContent(tk.Types.list_item_end);
     popToken(); // list_item_end
 
     return { type: NodeTypes.list_item, children };
@@ -49,7 +53,7 @@ export function parse(tokens: ast.Token[]): ast.Section[] {
 
   function parseList(): ast.List {
     // "list_start"
-    let {ordered} = <ast.ListStartToken> popToken();
+    let {ordered} = <tk.ListStart> popToken();
 
 
     let items = [];
@@ -57,10 +61,10 @@ export function parse(tokens: ast.Token[]): ast.Section[] {
       let token = peekToken();
       let {type} = token;
 
-      if (type === TokenTypes.list_end) {
+      if (type === tk.Types.list_end) {
         popToken();
         break;
-      } else if (ast.isListItemStartToken(token)) {
+      } else if (tk.isListItemStartToken(token)) {
         items.push(parseListItem());
       }
     }
@@ -70,7 +74,7 @@ export function parse(tokens: ast.Token[]): ast.Section[] {
 
   function parseBlockQuote(): ast.BlockQuote {
     popToken(); // blockquote_start
-    let content = parseContent(ast.TokenTypes.blockquote_end);
+    let content = parseContent(tk.Types.blockquote_end);
     popToken(); // blockquote_end
     return {
       type: ast.NodeTypes.blockquote,
@@ -86,8 +90,8 @@ export function parse(tokens: ast.Token[]): ast.Section[] {
     let heading: ast.Heading;
     let content: Node[] = [];
 
-    if (token.type === TokenTypes.heading) {
-      let headingToken = <ast.HeadingToken> token;
+    if (token.type === tk.Types.heading) {
+      let headingToken = <tk.Heading> token;
       heading = parseHeading();
       id = heading.id;
       content.push(heading);
@@ -105,7 +109,7 @@ export function parse(tokens: ast.Token[]): ast.Section[] {
   }
 
   function parseHeading(): ast.Heading {
-    let token  = <ast.HeadingToken> tokens.pop();
+    let token  = <tk.Heading> tokens.pop();
     let id = ensureUnique(token.text)
 
     return {
@@ -116,7 +120,14 @@ export function parse(tokens: ast.Token[]): ast.Section[] {
     };
   }
 
+  function parseParagraph(): ast.Paragraph {
+    let token  = <tk.Paragraph> tokens.pop();
 
+    return {
+      type: "paragraph",
+      children: parseInline(token.text),
+    }
+  }
 
   function parseContent(endType: string, content: Node[] = []): Node[] {
     // let content: Node[] = [];
@@ -137,11 +148,13 @@ export function parse(tokens: ast.Token[]): ast.Section[] {
         continue;
       }
 
-      if (ast.isListStartToken(token)) {
+      if (tk.isListStartToken(token)) {
         content.push(parseList());
-      } else if(token.type === ast.TokenTypes.heading) {
+      } else if(token.type === tk.Types.paragraph) {
+        content.push(parseParagraph());
+      } else if(token.type === tk.Types.heading) {
         content.push(parseHeading());
-      } else if(token.type === ast.TokenTypes.blockquote_start) {
+      } else if(token.type === tk.Types.blockquote_start) {
         content.push(parseBlockQuote());
       } else {
         content.push(tokens.pop());
