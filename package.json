@@ -1,0 +1,26 @@
+{
+  "name": "markdown-ast",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "lodash": "^4.1.0",
+    "marked": "^0.3.5"
+  },
+  "devDependencies": {
+    "babel-polyfill": "^6.3.14",
+    "glob": "^6.0.4",
+    "nolang": "0.0.1",
+    "tap-diff": "^0.1.1",
+    "tape": "^4.4.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
