@@ -10,7 +10,9 @@
       },
       {
         "type": "paragraph",
-        "text": "content 1"
+        "children": [
+          "content 1"
+        ]
       }
     ],
     "id": "section-1"
@@ -26,7 +28,9 @@
       },
       {
         "type": "paragraph",
-        "text": "content for subsection 1.1"
+        "children": [
+          "content for subsection 1.1"
+        ]
       }
     ],
     "id": "sub-section-1-1"
@@ -42,7 +46,9 @@
       },
       {
         "type": "paragraph",
-        "text": "content 2"
+        "children": [
+          "content 2"
+        ]
       }
     ],
     "id": "second-2"
@@ -58,7 +64,9 @@
       },
       {
         "type": "paragraph",
-        "text": "content for subsection 2.1"
+        "children": [
+          "content for subsection 2.1"
+        ]
       }
     ],
     "id": "sub-section-2-1"
@@ -74,7 +82,9 @@
       },
       {
         "type": "paragraph",
-        "text": "content for subsection 2.1"
+        "children": [
+          "content for subsection 2.1"
+        ]
       }
     ],
     "id": "sub-section-2-2"

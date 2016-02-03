@@ -4,7 +4,9 @@
     "children": [
       {
         "type": "paragraph",
-        "text": "Start content with no heading"
+        "children": [
+          "Start content with no heading"
+        ]
       }
     ],
     "id": "_top"
@@ -20,7 +22,9 @@
       },
       {
         "type": "paragraph",
-        "text": "content for second section"
+        "children": [
+          "content for second section"
+        ]
       }
     ],
     "id": "second-section"

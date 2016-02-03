@@ -17,12 +17,14 @@ export const NodeTypes = {
   blockquote: "blockquote",
 }
 
+export type InlineItem = Node | string;
+
 export interface TextNode extends Node {
   text: string,
 }
 
 export interface ContentNode extends Node {
-  children: Node[],
+  children: InlineItem[],
 }
 
 export interface IdNode extends Node {
@@ -37,13 +39,7 @@ export function isTextNode(o: any): o is TextNode {
   return o.text != null;
 }
 
-export type InlineItem = Node | string;
-
-export interface BlockNode extends Node {
-  children: InlineItem[],
-}
-
-export interface Paragraph extends BlockNode {
+export interface Paragraph extends ContentNode {
   type: "paragraph",
 };
 

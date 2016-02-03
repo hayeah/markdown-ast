@@ -4,7 +4,9 @@
     "children": [
       {
         "type": "paragraph",
-        "text": "Unordered List"
+        "children": [
+          "Unordered List"
+        ]
       },
       {
         "type": "list",
@@ -41,7 +43,9 @@
       },
       {
         "type": "paragraph",
-        "text": "Ordered List"
+        "children": [
+          "Ordered List"
+        ]
       },
       {
         "type": "list",
