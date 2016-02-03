@@ -1,5 +1,6 @@
 const glob = require("glob");
 
+import "babel-polyfill";
 import * as os from "nolang/os";
 import * as io from "nolang/io";
 
