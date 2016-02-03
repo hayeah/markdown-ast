@@ -15,28 +15,27 @@
           {
             "type": "list-item",
             "children": [
+              "item with ",
               {
-                "type": "text",
-                "text": "a"
+                "type": "emphasis",
+                "text": "bold"
               }
             ]
           },
           {
             "type": "list-item",
             "children": [
+              "item with ",
               {
-                "type": "text",
-                "text": "b"
+                "type": "inline-code",
+                "text": "code"
               }
             ]
           },
           {
             "type": "list-item",
             "children": [
-              {
-                "type": "text",
-                "text": "c"
-              }
+              "c"
             ]
           }
         ]
@@ -54,28 +53,19 @@
           {
             "type": "list-item",
             "children": [
-              {
-                "type": "text",
-                "text": "a"
-              }
+              "a"
             ]
           },
           {
             "type": "list-item",
             "children": [
-              {
-                "type": "text",
-                "text": "b"
-              }
+              "b"
             ]
           },
           {
             "type": "list-item",
             "children": [
-              {
-                "type": "text",
-                "text": "c"
-              }
+              "c"
             ]
           }
         ]

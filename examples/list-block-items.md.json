@@ -1,0 +1,34 @@
+[
+  {
+    "type": "section",
+    "children": [
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          {
+            "type": "list-item",
+            "children": [
+              "a normal item"
+            ]
+          },
+          {
+            "type": "list-item",
+            "children": [
+              "an item with block content",
+              "some more content",
+              "and some stuff"
+            ]
+          },
+          {
+            "type": "list-item",
+            "children": [
+              "last item"
+            ]
+          }
+        ]
+      }
+    ],
+    "id": "_top"
+  }
+]

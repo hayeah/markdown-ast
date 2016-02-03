@@ -1,0 +1,52 @@
+[
+  {
+    "type": "section",
+    "children": [
+      {
+        "type": "paragraph",
+        "children": [
+          "",
+          {
+            "type": "emphasis",
+            "text": "bold"
+          },
+          " text."
+        ]
+      },
+      {
+        "type": "paragraph",
+        "children": [
+          "a piece of ",
+          {
+            "type": "inline-code",
+            "text": "code"
+          },
+          "."
+        ]
+      },
+      {
+        "type": "paragraph",
+        "children": [
+          "and with ",
+          {
+            "type": "emphasis",
+            "text": "emphasis"
+          },
+          "."
+        ]
+      },
+      {
+        "type": "paragraph",
+        "children": [
+          "A link to ",
+          {
+            "type": "link",
+            "caption": "The Google",
+            "href": "https://google.com"
+          }
+        ]
+      }
+    ],
+    "id": "_top"
+  }
+]

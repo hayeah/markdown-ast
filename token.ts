@@ -13,10 +13,21 @@ export const Types = {
 
   blockquote_start: "blockquote_start",
   blockquote_end: "blockquote_end",
+
+  text: "text",
 };
 
 export interface Token {
   type: string,
+}
+
+export interface Text extends Token {
+  type: "text",
+  text: string,
+}
+
+export function isText(t: Token): t is Text {
+  return t.type === Types.text;
 }
 
 export interface Paragraph extends Token {

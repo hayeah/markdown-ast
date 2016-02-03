@@ -45,6 +45,8 @@ export function parse(tokens: tk.Token[]): ast.Section[] {
     popToken(); // "list_item_start"
 
     let children = parseContent(tk.Types.list_item_end);
+
+
     popToken(); // list_item_end
 
     return { type: NodeTypes.list_item, children };
@@ -129,7 +131,16 @@ export function parse(tokens: tk.Token[]): ast.Section[] {
     }
   }
 
-  function parseContent(endType: string, content: Node[] = []): Node[] {
+  function parseText(): ast.Children {
+    let token  = <tk.Paragraph> tokens.pop();
+
+    // return {
+    //   type: "paragraph",
+    //   children: parseInline(token.text),
+    // }
+  }
+
+  function parseContent(endType: string, content: ast.Children = []): ast.Children {
     // let content: Node[] = [];
     while(true) {
       let token = peekToken();
@@ -150,6 +161,10 @@ export function parse(tokens: tk.Token[]): ast.Section[] {
 
       if (tk.isListStartToken(token)) {
         content.push(parseList());
+      } else if(tk.isText(token)) {
+        tokens.pop();
+        let children = parseInline(token.text);
+        content.push(...children);
       } else if(token.type === tk.Types.paragraph) {
         content.push(parseParagraph());
       } else if(token.type === tk.Types.heading) {

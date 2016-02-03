@@ -1,0 +1,98 @@
+[
+  {
+    "type": "section",
+    "children": [
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          {
+            "type": "list-item",
+            "children": [
+              "a",
+              {
+                "type": "list",
+                "ordered": true,
+                "items": [
+                  {
+                    "type": "list-item",
+                    "children": [
+                      "one"
+                    ]
+                  },
+                  {
+                    "type": "list-item",
+                    "children": [
+                      "two"
+                    ]
+                  },
+                  {
+                    "type": "list-item",
+                    "children": [
+                      "three"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "list-item",
+            "children": [
+              "b"
+            ]
+          },
+          {
+            "type": "list-item",
+            "children": [
+              "c",
+              {
+                "type": "list",
+                "ordered": false,
+                "items": [
+                  {
+                    "type": "list-item",
+                    "children": [
+                      "ca",
+                      {
+                        "type": "list",
+                        "ordered": true,
+                        "items": [
+                          {
+                            "type": "list-item",
+                            "children": [
+                              "caa"
+                            ]
+                          },
+                          {
+                            "type": "list-item",
+                            "children": [
+                              "cab"
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "list-item",
+                    "children": [
+                      "cb"
+                    ]
+                  },
+                  {
+                    "type": "list-item",
+                    "children": [
+                      "cc"
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "id": "_top"
+  }
+]

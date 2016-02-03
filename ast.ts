@@ -18,13 +18,14 @@ export const NodeTypes = {
 }
 
 export type InlineItem = Node | string;
+export type Children = InlineItem[];
 
 export interface TextNode extends Node {
   text: string,
 }
 
 export interface ContentNode extends Node {
-  children: InlineItem[],
+  children: Children[],
 }
 
 export interface IdNode extends Node {

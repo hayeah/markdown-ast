@@ -1,7 +1,7 @@
 Unordered List
 
-* a
-* b
+* item with *bold*
+* item with `code`
 * c
 
 Ordered List
