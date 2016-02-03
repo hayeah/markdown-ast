@@ -108,14 +108,17 @@ export interface Section extends ContentNode {
 }
 
 export interface Document extends Node {
-  sections: Section[],
+  type: "document",
+  children: Section[],
 }
 
-export interface i18n extends Node {
-  id: string,
-  lang: string,
-  sections: Section[],
-}
+// export type Document = Section[];
+
+// export interface i18n extends Node {
+//   id: string,
+//   lang: string,
+//   sections: Section[],
+// }
 
 export interface BlockQuote extends ContentNode {
   type: "blockquote",
