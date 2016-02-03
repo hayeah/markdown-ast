@@ -25,7 +25,7 @@ export interface TextNode extends Node {
 }
 
 export interface ContentNode extends Node {
-  children: Children[],
+  children: Children,
 }
 
 export interface IdNode extends Node {
@@ -117,6 +117,6 @@ export interface i18n extends Node {
   sections: Section[],
 }
 
-export interface BlockQuote extends Node {
-  content: Node[],
+export interface BlockQuote extends ContentNode {
+  type: "blockquote",
 }

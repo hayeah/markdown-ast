@@ -49,7 +49,10 @@ function _parse(tokens: tk.Token[]): ast.Section[] {
 
     popToken(); // list_item_end
 
-    return { type: NodeTypes.list_item, children };
+    return {
+      type: NodeTypes.list_item,
+      children
+    };
   }
 
 
@@ -75,12 +78,14 @@ function _parse(tokens: tk.Token[]): ast.Section[] {
   }
 
   function parseBlockQuote(): ast.BlockQuote {
+
     popToken(); // blockquote_start
-    let content = parseContent(tk.Types.blockquote_end);
+    let children = parseContent(tk.Types.blockquote_end);
     popToken(); // blockquote_end
+
     return {
-      type: ast.NodeTypes.blockquote,
-      content,
+      type: "blockquote",
+      children,
     };
   }
 
@@ -129,15 +134,6 @@ function _parse(tokens: tk.Token[]): ast.Section[] {
       type: "paragraph",
       children: parseInline(token.text),
     }
-  }
-
-  function parseText(): ast.Children {
-    let token  = <tk.Paragraph> tokens.pop();
-
-    // return {
-    //   type: "paragraph",
-    //   children: parseInline(token.text),
-    // }
   }
 
   function parseContent(endType: string, content: ast.Children = []): ast.Children {

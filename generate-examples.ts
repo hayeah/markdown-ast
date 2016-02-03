@@ -3,7 +3,7 @@ const glob = require("glob");
 import * as os from "nolang/os";
 import * as io from "nolang/io";
 
-import {compile} from "./parser";
+import {parse} from "./parser";
 
 import * as path from "path";
 
@@ -52,7 +52,12 @@ async function generateOutputForExample(file: string) {
   var [src, err] = await io.ReadFull(r);
   exitIfError(err);
 
-  var tree = compile(src);
+  try {
+    var tree = parse(src);
+  } catch(err) {
+    exitIfError(err);
+  }
+
 
   var [w, err] = await os.Create(file + ".json");
   exitIfError(err);
