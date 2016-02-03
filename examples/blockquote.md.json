@@ -1,0 +1,49 @@
+[
+  {
+    "type": "section",
+    "children": [
+      {
+        "type": "blockquote",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              "This is a blockquote with two paragraphs and a list."
+            ]
+          },
+          {
+            "type": "list",
+            "ordered": false,
+            "items": [
+              {
+                "type": "list-item",
+                "children": [
+                  "a"
+                ]
+              },
+              {
+                "type": "list-item",
+                "children": [
+                  "b"
+                ]
+              },
+              {
+                "type": "list-item",
+                "children": [
+                  "c"
+                ]
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "children": [
+              "And here goes the second paragraph."
+            ]
+          }
+        ]
+      }
+    ],
+    "id": "_top"
+  }
+]
