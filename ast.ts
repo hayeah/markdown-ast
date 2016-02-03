@@ -83,6 +83,31 @@ export interface Heading extends TextNode {
   depth: number,
 }
 
+export interface Link extends Node {
+  type: "link",
+  caption: string,
+  href: string,
+  title: string,
+}
+
+export interface Image extends Node {
+  type: "image",
+  caption: string,
+  href: string,
+  title: string,
+}
+
+export interface InlineCode extends TextNode {
+  type: "inline-code",
+}
+
+export interface Strong extends TextNode {
+  type: "strong",
+}
+
+export interface Emphasis extends TextNode {
+  type: "emphasis",
+}
 
 
 export interface Code extends TextNode {
