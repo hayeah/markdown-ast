@@ -12,36 +12,36 @@ import * as path from "path";
 import {parse} from "./parser";
 
 function exitIfError(err: Error) {
-  if(err) {
+  if (err) {
     console.log(err);
     process.exit(1);
   }
 }
 
-async function checkResult(file,t) {
-  var [r,err] = await os.Open(file);
+async function checkResult(file, t) {
+  var [r, err] = await os.Open(file);
   exitIfError(err);
 
-  var [src,err] = await io.ReadFull(r);
+  var [src, err] = await io.ReadFull(r);
   exitIfError(err);
 
   var tree = parse(src);
 
-  var [r,err] = await os.Open(file + ".json");
+  var [r, err] = await os.Open(file + ".json");
   exitIfError(err);
 
-  var [resultJSON,err] = await io.ReadFull(r);
+  var [resultJSON, err] = await io.ReadFull(r);
   exitIfError(err);
 
   let result = JSON.parse(resultJSON);
 
-  t.deepEqual(tree,result,`Checking ${file}`);
+  t.deepEqual(tree, result, `Checking ${file}`);
 
   t.end();
 }
 
-glob("./examples/*.md", (err,files: string[]) => {
+glob("./examples/*.md", (err, files: string[]) => {
   files.forEach(file => {
-    test(path.basename(file),checkResult.bind(undefined,file));
+    test(path.basename(file), checkResult.bind(undefined, file));
   });
 });
