@@ -1,3 +1,5 @@
+import "babel-polyfill";
+
 const test = require("tape");
 var tapDiff = require('tap-diff');
 test.createStream().pipe(tapDiff()).pipe(process.stdout);
