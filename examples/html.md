@@ -1,9 +1,7 @@
 before html tag Bar
 
-<Bar>
-* 1
-* 2
-* 3
-</Bar>
+<bar>
+  <baz>qux</baz>
+</bar>
 
 after html tag

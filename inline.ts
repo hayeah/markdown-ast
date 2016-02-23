@@ -125,7 +125,10 @@ function outputAST(src: string): ast.Children {
           type: "image",
           caption,
           href,
-          title,
+        }
+
+        if(title) {
+          node.title = title;
         }
 
         pushNode(node);
@@ -135,11 +138,18 @@ function outputAST(src: string): ast.Children {
           type: "link",
           caption,
           href,
-          title,
+        }
+
+        if(title) {
+          node.title = title;
         }
 
         pushNode(node);
       }
+
+
+
+
 
       continue;
     }

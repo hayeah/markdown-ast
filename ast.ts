@@ -56,14 +56,14 @@ export interface Link extends Node {
   type: "link",
   caption: string,
   href: string,
-  title: string,
+  title?: string,
 }
 
 export interface Image extends Node {
   type: "image",
   caption: string,
   href: string,
-  title: string,
+  title?: string,
 }
 
 export interface InlineCode extends TextNode {

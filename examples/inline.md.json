@@ -45,6 +45,18 @@
             "href": "https://google.com"
           }
         ]
+      },
+      {
+        "type": "paragraph",
+        "children": [
+          "A link to ",
+          {
+            "type": "link",
+            "caption": "The Google",
+            "href": "https://google.com",
+            "title": "google"
+          }
+        ]
       }
     ],
     "id": "_top"

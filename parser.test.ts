@@ -35,14 +35,12 @@ async function checkResult(file, test) {
   test(tree, result);
 }
 
-glob("./examples/*.md", (err, files: string[]) => {
-  files.forEach(file => {
-    describe(path.basename(file), () => {
-      it("result", () => {
-        checkResult(file, assert.deepEqual).catch(err => {
-          throw err;
-        });
-      });
+const examples: string[] = glob.sync("./examples/*.md");
+
+describe("parser", () => {
+  examples.forEach(example => {
+    it(`parses ${path.basename(example)}`, () => {
+      return checkResult(example, assert.deepEqual);
     });
   });
 });
