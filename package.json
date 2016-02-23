@@ -12,10 +12,10 @@
   },
   "devDependencies": {
     "babel-polyfill": "^6.3.14",
+    "chai": "^3.5.0",
     "glob": "^6.0.4",
-    "nolang": "0.0.1",
-    "tap-diff": "^0.1.1",
-    "tape": "^4.4.0"
+    "mocha": "^2.4.5",
+    "nolang": "0.0.1"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

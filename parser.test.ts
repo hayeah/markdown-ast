@@ -1,8 +1,4 @@
-import "babel-polyfill";
-
-const test = require("tape");
-var tapDiff = require('tap-diff');
-test.createStream().pipe(tapDiff()).pipe(process.stdout);
+import { assert } from "chai";
 
 const glob = require("glob");
 
@@ -13,37 +9,40 @@ import * as path from "path";
 
 import {parse} from "./parser";
 
-function exitIfError(err: Error) {
+function checkError(err: Error) {
   if (err) {
-    console.log(err);
-    process.exit(1);
+    throw err;
   }
 }
 
-async function checkResult(file, t) {
+async function checkResult(file, test) {
   var [r, err] = await os.Open(file);
-  exitIfError(err);
+  checkError(err);
 
   var [src, err] = await io.ReadFull(r);
-  exitIfError(err);
+  checkError(err);
 
   var tree = parse(src);
 
   var [r, err] = await os.Open(file + ".json");
-  exitIfError(err);
+  checkError(err);
 
   var [resultJSON, err] = await io.ReadFull(r);
-  exitIfError(err);
+  checkError(err);
 
   let result = JSON.parse(resultJSON);
 
-  t.deepEqual(tree, result, `Checking ${file}`);
-
-  t.end();
+  test(tree, result);
 }
 
 glob("./examples/*.md", (err, files: string[]) => {
   files.forEach(file => {
-    test(path.basename(file), checkResult.bind(undefined, file));
+    describe(path.basename(file), () => {
+      it("result", () => {
+        checkResult(file, assert.deepEqual).catch(err => {
+          throw err;
+        });
+      });
+    });
   });
 });

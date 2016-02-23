@@ -9,5 +9,5 @@ watch:
 
 .PHONY: test
 test:
-	node build/parser.test.js
+	(qpack build *.test.* --target node -o test -w & mocha test & wait)
 
