@@ -11,6 +11,8 @@ import {parseInline} from "./inline";
 import {Node} from "./ast";
 const {NodeTypes} = ast;
 
+import { parseXMLHeredoc } from "./parseXMLHeredoc";
+
 export default parse;
 
 export function parse(src: string): ast.Section[] {
@@ -136,6 +138,24 @@ function _parse(tokens: tk.Token[]): ast.Section[] {
     }
   }
 
+  // Treat uppercase HTML tags as components. Parse text content recursively.
+  function parseComponent(): ast.JSX {
+    const { text } = <tk.HTML> tokens.pop();
+    const { tag, attrs, content } = parseXMLHeredoc(text);
+
+    const node: ast.JSX = {
+      type: "jsx",
+      name: tag,
+      attrs,
+    }
+
+    if(content) {
+      node.sections = parse(content);
+    }
+
+    return node;
+  }
+
   function parseContent(endType: string, content: ast.Children = []): ast.Children {
     // let content: Node[] = [];
     while (true) {
@@ -167,6 +187,16 @@ function _parse(tokens: tk.Token[]): ast.Section[] {
         content.push(parseHeading());
       } else if (token.type === tk.Types.blockquote_start) {
         content.push(parseBlockQuote());
+      } else if (token.type === tk.Types.html) {
+        const { text } = <tk.HTML> token;
+        if(text.match(/^<[A-Z]/)) {
+          // treat uppercase tags as components
+          content.push(parseComponent());
+        } else {
+          // normal html node
+          content.push(tokens.pop());
+        }
+
       } else {
         content.push(tokens.pop());
       }

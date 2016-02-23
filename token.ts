@@ -14,6 +14,8 @@ export const Types = {
   blockquote_start: "blockquote_start",
   blockquote_end: "blockquote_end",
 
+  html: "html",
+
   text: "text",
 };
 
@@ -38,6 +40,12 @@ export interface Paragraph extends Token {
 export interface Heading extends Token {
   type: "heading",
   depth: number,
+  text: string,
+}
+
+export interface HTML extends Token {
+  type: "html",
+  pre: boolean,
   text: string,
 }
 

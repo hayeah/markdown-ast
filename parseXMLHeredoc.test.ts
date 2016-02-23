@@ -38,5 +38,18 @@ describe("parseXMLHeredoc", () => {
     });
 
   });
+
+  describe("self-closing tag with no attrbiutes", () => {
+    before(() => {
+      const input = "<abc/>"
+      result = parseXMLHeredoc(input);
+    });
+
+    it("is empty", () => {
+      assert.isUndefined(result.content);
+      assert.deepEqual(result.attrs, {});
+    });
+
+  });
 });
 

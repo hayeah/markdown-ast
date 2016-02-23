@@ -1,0 +1,19 @@
+[
+  {
+    "type": "section",
+    "children": [
+      {
+        "type": "paragraph",
+        "children": [
+          "a button"
+        ]
+      },
+      {
+        "type": "jsx",
+        "name": "Button",
+        "attrs": {}
+      }
+    ],
+    "id": "_top"
+  }
+]

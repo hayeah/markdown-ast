@@ -5,11 +5,6 @@ const startTag = /^<([-A-Za-z0-9_]+)((?:\s+\w+(?:\s*=\s*(?:(?:"[^"]*")|(?:'[^']*
 const endTag = /^<\/([-A-Za-z0-9_]+)[^>]*>/;
 const attrRE = /([-A-Za-z0-9_]+)(?:\s*=\s*(?:(?:"((?:\\.|[^"])*)")|(?:'((?:\\.|[^'])*)')|([^>\s]+)))?/g;
 
-// console.log("<abc>".match(startTag));
-// console.log("<abc a='1' b='2' c d>".match(startTag));
-// console.log(parseXMLHeredoc("<abc a='1' b='2' c d>blah blah blah </abc>"));
-// console.log(parseXMLHeredoc("<abc a='1' b='2'/>"));
-
 type Attributes = { [key: string]: any };
 
 export interface XMLHereDoc {
@@ -27,7 +22,7 @@ export function parseXMLHeredoc(input: string): XMLHereDoc {
   // console.log(matches);
 
 	const tagName = matches[1];
-	const tagAttributesString = matches[2];
+	const tagAttributesString = matches[2] || "";
   const isSelfClosing = matches[3] === '/';
 
   let content: string;
@@ -61,10 +56,3 @@ function parseAttributes(input: string): Attributes {
 
 	return attrs;
 }
-
-// console.log(parseAttributes("a='1' b=\"2\" c data-foo='blahblah'"))
-
-
-
-
-

@@ -13,6 +13,7 @@ export const NodeTypes = {
   paragraph: "paragraph",
   code: "code",
   html: "html",
+  jsx: "jsx",
   i18n: "i18n",
   blockquote: "blockquote",
 }
@@ -85,6 +86,13 @@ export interface Code extends TextNode {
 
 export interface HTML extends TextNode {
   pre: boolean,
+}
+
+export interface JSX extends Node {
+  type: "jsx";
+  name: string;
+  attrs: { [key: string]: string | boolean };
+  sections?: Section[];
 }
 
 export interface List extends Node {
