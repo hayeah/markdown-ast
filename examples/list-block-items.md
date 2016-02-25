@@ -6,7 +6,7 @@
 
   and some more stuff
 
-  ```
+  ```js
   a piece of code
   ```
 * last item

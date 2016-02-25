@@ -1,0 +1,20 @@
+[
+  {
+    "type": "section",
+    "children": [
+      {
+        "type": "paragraph",
+        "children": [
+          "A paragraph with inline html ",
+          {
+            "type": "html",
+            "pre": false,
+            "text": "<foo a='1' b=\"2\" c>hohoho with `some` other *inline*</foo>"
+          },
+          " and ends with\nsome other text."
+        ]
+      }
+    ],
+    "id": "_top"
+  }
+]

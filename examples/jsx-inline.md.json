@@ -1,0 +1,47 @@
+[
+  {
+    "type": "section",
+    "children": [
+      {
+        "type": "paragraph",
+        "children": [
+          "A paragraph with inline JSX ",
+          {
+            "type": "jsx",
+            "name": "Foo",
+            "attrs": {
+              "a": "1",
+              "b": "2",
+              "c": true
+            },
+            "sections": [
+              {
+                "type": "section",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      "hohoho with ",
+                      {
+                        "type": "inline-code",
+                        "text": "some"
+                      },
+                      " other ",
+                      {
+                        "type": "emphasis",
+                        "text": "inline"
+                      }
+                    ]
+                  }
+                ],
+                "id": "_top"
+              }
+            ]
+          },
+          " and ends with\nsome other text."
+        ]
+      }
+    ],
+    "id": "_top"
+  }
+]

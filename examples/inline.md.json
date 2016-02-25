@@ -5,7 +5,7 @@
       {
         "type": "paragraph",
         "children": [
-          "",
+          "a paragraph with ",
           {
             "type": "emphasis",
             "text": "bold"
@@ -55,6 +55,17 @@
             "caption": "The Google",
             "href": "https://google.com",
             "title": "google"
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "children": [
+          "An image of ",
+          {
+            "type": "image",
+            "caption": "kitten",
+            "href": "https://image.com/cutekitten.jpg"
           }
         ]
       }
