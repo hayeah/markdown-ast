@@ -20,7 +20,8 @@
                 "type": "emphasis",
                 "text": "bold"
               }
-            ]
+            ],
+            "isBlock": false
           },
           {
             "type": "list-item",
@@ -30,13 +31,15 @@
                 "type": "inline-code",
                 "text": "code"
               }
-            ]
+            ],
+            "isBlock": false
           },
           {
             "type": "list-item",
             "children": [
               "c"
-            ]
+            ],
+            "isBlock": false
           }
         ]
       },
@@ -54,19 +57,22 @@
             "type": "list-item",
             "children": [
               "a"
-            ]
+            ],
+            "isBlock": false
           },
           {
             "type": "list-item",
             "children": [
               "b"
-            ]
+            ],
+            "isBlock": false
           },
           {
             "type": "list-item",
             "children": [
               "c"
-            ]
+            ],
+            "isBlock": false
           }
         ]
       }

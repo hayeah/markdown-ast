@@ -18,29 +18,34 @@
                     "type": "list-item",
                     "children": [
                       "one"
-                    ]
+                    ],
+                    "isBlock": false
                   },
                   {
                     "type": "list-item",
                     "children": [
                       "two"
-                    ]
+                    ],
+                    "isBlock": false
                   },
                   {
                     "type": "list-item",
                     "children": [
                       "three"
-                    ]
+                    ],
+                    "isBlock": false
                   }
                 ]
               }
-            ]
+            ],
+            "isBlock": false
           },
           {
             "type": "list-item",
             "children": [
               "b"
-            ]
+            ],
+            "isBlock": false
           },
           {
             "type": "list-item",
@@ -62,33 +67,39 @@
                             "type": "list-item",
                             "children": [
                               "caa"
-                            ]
+                            ],
+                            "isBlock": false
                           },
                           {
                             "type": "list-item",
                             "children": [
                               "cab"
-                            ]
+                            ],
+                            "isBlock": false
                           }
                         ]
                       }
-                    ]
+                    ],
+                    "isBlock": false
                   },
                   {
                     "type": "list-item",
                     "children": [
                       "cb"
-                    ]
+                    ],
+                    "isBlock": false
                   },
                   {
                     "type": "list-item",
                     "children": [
                       "cc"
-                    ]
+                    ],
+                    "isBlock": false
                   }
                 ]
               }
-            ]
+            ],
+            "isBlock": false
           }
         ]
       }

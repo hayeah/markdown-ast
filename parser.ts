@@ -49,9 +49,11 @@ function _parse(tokens: tk.Token[]): ast.Section[] {
 
 
     let children;
+    let looseItem = false;
 
 
     if(start.type === tk.Types.loose_item_start) {
+      looseItem = true;
       // Kludgy handling of "loose items". The tokens returned by the lexer are messy to begin with.
       children = parseContent(tk.Types.list_item_end, [], true).map(node => {
         if(typeof node === "string") {
@@ -78,7 +80,8 @@ function _parse(tokens: tk.Token[]): ast.Section[] {
 
     return {
       type: NodeTypes.list_item,
-      children
+      children,
+      isBlock: looseItem,
     };
   }
 

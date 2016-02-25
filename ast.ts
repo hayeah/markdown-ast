@@ -107,6 +107,7 @@ export interface List extends Node {
 }
 
 export interface ListItem extends ContentNode {
+  isBlock: boolean;
 }
 
 export function isListItem(o: Node): o is ListItem {

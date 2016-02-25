@@ -10,7 +10,8 @@
             "type": "list-item",
             "children": [
               "a normal item"
-            ]
+            ],
+            "isBlock": false
           },
           {
             "type": "list-item",
@@ -33,13 +34,15 @@
                 "lang": "js",
                 "text": "a piece of code"
               }
-            ]
+            ],
+            "isBlock": true
           },
           {
             "type": "list-item",
             "children": [
               "last item"
-            ]
+            ],
+            "isBlock": false
           }
         ]
       }

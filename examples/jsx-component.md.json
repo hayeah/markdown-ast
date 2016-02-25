@@ -40,19 +40,22 @@
                     "type": "list-item",
                     "children": [
                       "item 1"
-                    ]
+                    ],
+                    "isBlock": false
                   },
                   {
                     "type": "list-item",
                     "children": [
                       "item 2"
-                    ]
+                    ],
+                    "isBlock": false
                   },
                   {
                     "type": "list-item",
                     "children": [
                       "item 3"
-                    ]
+                    ],
+                    "isBlock": false
                   }
                 ]
               }

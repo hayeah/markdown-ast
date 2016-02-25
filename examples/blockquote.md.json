@@ -19,19 +19,22 @@
                 "type": "list-item",
                 "children": [
                   "a"
-                ]
+                ],
+                "isBlock": false
               },
               {
                 "type": "list-item",
                 "children": [
                   "b"
-                ]
+                ],
+                "isBlock": false
               },
               {
                 "type": "list-item",
                 "children": [
                   "c"
-                ]
+                ],
+                "isBlock": false
               }
             ]
           },
