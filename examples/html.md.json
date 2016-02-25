@@ -1,0 +1,25 @@
+[
+  {
+    "type": "section",
+    "children": [
+      {
+        "type": "paragraph",
+        "children": [
+          "before html tag Bar"
+        ]
+      },
+      {
+        "type": "html",
+        "pre": false,
+        "text": "<bar>\n  <baz>qux</baz>\n</bar>\n\n"
+      },
+      {
+        "type": "paragraph",
+        "children": [
+          "after html tag"
+        ]
+      }
+    ],
+    "id": "_top"
+  }
+]

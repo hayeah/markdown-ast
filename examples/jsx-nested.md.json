@@ -1,0 +1,52 @@
+[
+  {
+    "type": "section",
+    "children": [
+      {
+        "type": "jsx",
+        "name": "Bar",
+        "attrs": {},
+        "sections": [
+          {
+            "type": "section",
+            "children": [
+              {
+                "id": "title",
+                "type": "heading",
+                "depth": 1,
+                "text": "title"
+              },
+              {
+                "type": "paragraph",
+                "children": [
+                  "a paragraph"
+                ]
+              },
+              {
+                "type": "jsx",
+                "name": "Baz",
+                "attrs": {},
+                "sections": [
+                  {
+                    "type": "section",
+                    "children": [
+                      {
+                        "type": "paragraph",
+                        "children": [
+                          "nested in baz"
+                        ]
+                      }
+                    ],
+                    "id": "_top"
+                  }
+                ]
+              }
+            ],
+            "id": "title"
+          }
+        ]
+      }
+    ],
+    "id": "_top"
+  }
+]
