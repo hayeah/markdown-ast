@@ -3,11 +3,12 @@ import { parseXMLHeredoc, XMLHereDoc } from "./parseXMLHeredoc"
 
 describe("parseXMLHeredoc", () => {
   let result: XMLHereDoc;
+  let remainder: string;
 
   describe("tag with content", () => {
     before(() => {
-      const input = "<abc a='1' b=\"2\" c>content</abc>"
-      result = parseXMLHeredoc(input);
+      const input = "<abc a='1' b=\"2\" c>content</abc>abcd";
+      [result, remainder] = parseXMLHeredoc(input);
     });
 
     it("parses tag name", () => {
@@ -25,12 +26,16 @@ describe("parseXMLHeredoc", () => {
     it("parses content", () => {
       assert.deepEqual(result.content, "content");
     });
+
+    it("returns unparsed remainder", () => {
+      assert.equal(remainder, "abcd");
+    });
   });
 
   describe("self-closing tag", () => {
     before(() => {
-      const input = "<abc a='1' b=\"2\" c/>"
-      result = parseXMLHeredoc(input);
+      const input = "<abc a='1' b=\"2\" c/>";
+      [result, remainder] = parseXMLHeredoc(input);
     });
 
     it("has no content", () => {
@@ -41,8 +46,8 @@ describe("parseXMLHeredoc", () => {
 
   describe("self-closing tag with no attrbiutes", () => {
     before(() => {
-      const input = "<abc/>"
-      result = parseXMLHeredoc(input);
+      const input = "<abc/>abcd";
+      [result, remainder] = parseXMLHeredoc(input);
     });
 
     it("is empty", () => {
@@ -50,6 +55,11 @@ describe("parseXMLHeredoc", () => {
       assert.deepEqual(result.attrs, {});
     });
 
+    it("returns unparsed remainder", () => {
+      assert.equal(remainder, "abcd");
+    });
   });
+
+
 });
 

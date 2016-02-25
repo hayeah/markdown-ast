@@ -166,7 +166,8 @@ function _parse(tokens: tk.Token[]): ast.Section[] {
   // Treat uppercase HTML tags as components. Parse text content recursively.
   function parseComponent(): ast.JSX {
     const { text } = <tk.HTML> tokens.pop();
-    const { tag, attrs, content } = parseXMLHeredoc(text);
+    const [doc, _] = parseXMLHeredoc(text);
+    const { tag, attrs, content } = doc;
 
     const node: ast.JSX = {
       type: "jsx",

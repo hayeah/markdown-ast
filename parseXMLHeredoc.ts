@@ -1,8 +1,8 @@
 // Adapted from http://erik.eae.net/simplehtmlparser/simplehtmlparser.js
 // Also see: http://ejohn.org/blog/pure-javascript-html-parser/
 
-const startTag = /^<([-A-Za-z0-9_]+)((?:\s+\w+(?:\s*=\s*(?:(?:"[^"]*")|(?:'[^']*')|[^>\s]+))?)*)\s*(\/?)>/;
-const endTag = /^<\/([-A-Za-z0-9_]+)[^>]*>/;
+export const startTagRE = /^<([-A-Za-z0-9_]+)((?:\s+\w+(?:\s*=\s*(?:(?:"[^"]*")|(?:'[^']*')|[^>\s]+))?)*)\s*(\/?)>/;
+const endTagRE = /^<\/([-A-Za-z0-9_]+)[^>]*>/;
 const attrRE = /([-A-Za-z0-9_]+)(?:\s*=\s*(?:(?:"((?:\\.|[^"])*)")|(?:'((?:\\.|[^'])*)')|([^>\s]+)))?/g;
 
 type Attributes = { [key: string]: any };
@@ -13,8 +13,33 @@ export interface XMLHereDoc {
   content?: string;
 }
 
-export function parseXMLHeredoc(input: string): XMLHereDoc {
-	const matches = input.match(startTag);
+export interface StartTag {
+	tag: string;
+	attrs: Attributes;
+	isSelfClosing: boolean;
+}
+
+//
+
+export function parseStartTag(input: string): StartTag {
+	const m = input.match(startTagRE);
+
+	const tagName = m[1];
+	const tagAttributesString = m[2] || "";
+  const isSelfClosing = m[3] === '/';
+
+	const attrs = parseAttributes(tagAttributesString);
+
+	return {
+		tag: tagName,
+		attrs,
+		isSelfClosing,
+	};
+}
+
+export function parseXMLHeredoc(input: string): [XMLHereDoc, string] {
+	let remainder = "";
+	const matches = input.match(startTagRE);
   if(!matches) {
     return;
   }
@@ -32,15 +57,21 @@ export function parseXMLHeredoc(input: string): XMLHereDoc {
     const end = input.lastIndexOf(closeTag);
 
     content = input.slice(matches[0].length, end);
-  }
+
+		remainder = input.substring(end + closeTag.length);
+  } else {
+		remainder = input.substring(matches[0].length);
+	}
 
 	const attrs = parseAttributes(tagAttributesString);
 
-	return {
+	const xml: XMLHereDoc = {
 		tag: tagName,
 		attrs,
     content,
-	}
+	};
+
+	return [xml, remainder]
 }
 
 function parseAttributes(input: string): Attributes {
