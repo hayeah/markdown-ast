@@ -11,39 +11,27 @@ export interface XMLHereDoc {
   tag: string;
   attrs: Attributes;
   content?: string;
+	raw: string;
 }
 
 export interface StartTag {
 	tag: string;
 	attrs: Attributes;
 	isSelfClosing: boolean;
-}
 
-//
-
-export function parseStartTag(input: string): StartTag {
-	const m = input.match(startTagRE);
-
-	const tagName = m[1];
-	const tagAttributesString = m[2] || "";
-  const isSelfClosing = m[3] === '/';
-
-	const attrs = parseAttributes(tagAttributesString);
-
-	return {
-		tag: tagName,
-		attrs,
-		isSelfClosing,
-	};
 }
 
 export function parseXMLHeredoc(input: string): [XMLHereDoc, string] {
+	let raw: string;
+
 	let remainder = "";
 	const matches = input.match(startTagRE);
   if(!matches) {
     return;
   }
 
+
+	raw = matches[0];
   // console.log(matches);
 
 	const tagName = matches[1];
@@ -58,6 +46,8 @@ export function parseXMLHeredoc(input: string): [XMLHereDoc, string] {
 
     content = input.slice(matches[0].length, end);
 
+		raw += content + closeTag;
+
 		remainder = input.substring(end + closeTag.length);
   } else {
 		remainder = input.substring(matches[0].length);
@@ -69,6 +59,7 @@ export function parseXMLHeredoc(input: string): [XMLHereDoc, string] {
 		tag: tagName,
 		attrs,
     content,
+		raw,
 	};
 
 	return [xml, remainder]

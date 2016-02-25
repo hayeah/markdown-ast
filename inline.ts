@@ -2,8 +2,11 @@ const marked = require("marked");
 
 import * as ast from "./ast";
 
-let options = Object.assign(marked.defaults,{xhtml: true});
-let inlineLexer = new marked.InlineLexer([],options);
+const options = Object.assign(marked.defaults,{xhtml: true});
+const inlineLexer = new marked.InlineLexer([],options);
+
+import { parseXMLHeredoc } from "./parseXMLHeredoc";
+import { parse } from "./parser";
 
 inlineLexer.outputAST = outputAST;
 
@@ -82,21 +85,31 @@ function outputAST(src: string): ast.Children {
     // }
 
     if (cap = this.rules.tag.exec(src)) {
-      // We sort of use html as heredoc.
-      // Search for closing tag. keep everything in between as is
+      const [result, remainder] = parseXMLHeredoc(src);
 
-      // if (!this.inLink && /^<a /i.test(cap[0])) {
-      //   this.inLink = true;
-      // } else if (this.inLink && /^<\/a>/i.test(cap[0])) {
-      //   this.inLink = false;
-      // }
-      src = src.substring(cap[0].length);
-      // out += this.options.sanitize
-      //   ? this.options.sanitizer
-      //     ? this.options.sanitizer(cap[0])
-      //     : escape(cap[0])
-      //   : cap[0]
-      console.log("tag",cap);
+      src = remainder;
+
+      const firstLetter = result.tag.charAt(0);
+      const isTagFirstLetterUppercase = firstLetter.toUpperCase() == firstLetter;
+
+      if(!isTagFirstLetterUppercase) {
+        const node: ast.HTML = {
+          type: "html",
+          pre: false,
+          text: result.raw,
+        };
+
+        pushNode(node);
+      } else {
+        const node: ast.JSX = {
+          type: "jsx",
+          name: result.tag,
+          attrs: result.attrs,
+          sections: parse(result.content),
+        };
+
+        pushNode(node);
+      }
 
       continue;
     }
@@ -114,7 +127,7 @@ function outputAST(src: string): ast.Children {
     //   continue;
     // }
 
-    // // link
+    // link
     if (cap = this.rules.link.exec(src)) {
       src = src.substring(cap[0].length);
 

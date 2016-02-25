@@ -27,6 +27,10 @@ describe("parseXMLHeredoc", () => {
       assert.deepEqual(result.content, "content");
     });
 
+    it("returns raw html", () => {
+      assert.equal(result.raw, "<abc a='1' b=\"2\" c>content</abc>");
+    });
+
     it("returns unparsed remainder", () => {
       assert.equal(remainder, "abcd");
     });
@@ -42,6 +46,10 @@ describe("parseXMLHeredoc", () => {
       assert.isUndefined(result.content);
     });
 
+    it("returns raw html", () => {
+      assert.equal(result.raw, "<abc a='1' b=\"2\" c/>");
+    });
+
   });
 
   describe("self-closing tag with no attrbiutes", () => {
@@ -53,6 +61,10 @@ describe("parseXMLHeredoc", () => {
     it("is empty", () => {
       assert.isUndefined(result.content);
       assert.deepEqual(result.attrs, {});
+    });
+
+    it("returns raw html", () => {
+      assert.equal(result.raw, "<abc/>");
     });
 
     it("returns unparsed remainder", () => {
