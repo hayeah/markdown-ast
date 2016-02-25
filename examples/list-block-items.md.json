@@ -15,9 +15,23 @@
           {
             "type": "list-item",
             "children": [
-              "an item with block content",
-              "some more content",
-              "and some stuff"
+              "an item with block content ",
+              {
+                "type": "newline"
+              },
+              "some more content ",
+              "broken into two lines ",
+              {
+                "type": "newline"
+              },
+              "and some more stuff ",
+              {
+                "type": "newline"
+              },
+              {
+                "type": "code",
+                "text": "a piece of code"
+              }
             ]
           },
           {

@@ -2,6 +2,11 @@
 * an item with block content
 
   some more content
+  broken into two lines
 
-  and some stuff
+  and some more stuff
+
+  ```
+  a piece of code
+  ```
 * last item

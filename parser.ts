@@ -21,8 +21,8 @@ export function parse(src: string): ast.Section[] {
   return sections;
 }
 
-export function tokenize(md: string): tk.Token[] {
-  return lexer(md);
+export function tokenize(src: string): tk.Token[] {
+  return lexer(src);
 }
 
 function _parse(tokens: tk.Token[]): ast.Section[] {
@@ -44,9 +44,34 @@ function _parse(tokens: tk.Token[]): ast.Section[] {
   }
 
   function parseListItem(): ast.ListItem {
-    popToken(); // "list_item_start"
+    const start = <tk.ListItemStartToken> popToken();
 
-    let children = parseContent(tk.Types.list_item_end);
+
+
+    let children;
+
+
+    if(start.type === tk.Types.loose_item_start) {
+      // Kludgy handling of "loose items". The tokens returned by the lexer are messy to begin with.
+      children = parseContent(tk.Types.list_item_end, [], true).map(node => {
+        if(typeof node === "string") {
+          // Add space to prevent text strings from being joined together.
+          return `${node} `;
+        } else {
+          if(node.type === "space") {
+            const newline: ast.NewLine = {
+              type: "newline",
+            };
+
+            return newline;
+          } else {
+            return node;
+          }
+        }
+      });
+    } else {
+      children = parseContent(tk.Types.list_item_end);
+    }
 
 
     popToken(); // list_item_end
@@ -156,7 +181,7 @@ function _parse(tokens: tk.Token[]): ast.Section[] {
     return node;
   }
 
-  function parseContent(endType: string, content: ast.Children = []): ast.Children {
+  function parseContent(endType: string, content: ast.Children = [], preserveSpace: boolean = false): ast.Children {
     // let content: Node[] = [];
     while (true) {
       let token = peekToken();
@@ -169,8 +194,8 @@ function _parse(tokens: tk.Token[]): ast.Section[] {
         return content
       }
 
-      // wtf? get rid of space
-      if (token.type === "space") {
+      // Get rid of space, except when it matters (list items...)
+      if (token.type === "space" && !preserveSpace) {
         tokens.pop();
         continue;
       }

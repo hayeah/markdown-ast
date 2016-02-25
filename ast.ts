@@ -16,10 +16,15 @@ export const NodeTypes = {
   jsx: "jsx",
   i18n: "i18n",
   blockquote: "blockquote",
+  newline: "newline",
 }
 
 export type InlineItem = Node | string;
 export type Children = InlineItem[];
+
+export interface NewLine extends Node {
+  type: "newline";
+}
 
 export interface TextNode extends Node {
   text: string,
