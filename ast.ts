@@ -90,6 +90,7 @@ export interface Code extends TextNode {
 }
 
 export interface HTML extends TextNode {
+  inline: boolean,
   pre: boolean,
 }
 

@@ -7,8 +7,8 @@
         "children": [
           "a paragraph with ",
           {
-            "type": "emphasis",
-            "text": "bold"
+            "type": "strong",
+            "text": "strong"
           },
           " text."
         ]

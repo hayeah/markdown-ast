@@ -10,7 +10,8 @@
       },
       {
         "type": "html",
-        "pre": false,
+        "inline": false,
+        "pre": true,
         "text": "<bar>\n  <baz>qux</baz>\n</bar>\n\n"
       },
       {

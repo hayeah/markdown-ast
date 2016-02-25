@@ -1,4 +1,4 @@
-a paragraph with *bold* text.
+a paragraph with **strong** text.
 
 a piece of `code`.
 

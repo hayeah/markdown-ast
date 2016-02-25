@@ -7,6 +7,7 @@
         "children": [
           "A paragraph with inline html ",
           {
+            "inline": true,
             "type": "html",
             "pre": false,
             "text": "<foo a='1' b=\"2\" c>hohoho with `some` other *inline*</foo>"

@@ -220,7 +220,16 @@ function _parse(tokens: tk.Token[]): ast.Section[] {
           content.push(parseComponent());
         } else {
           // normal html node
-          content.push(tokens.pop());
+          const tk = <tk.HTML> tokens.pop();
+
+          const node: ast.HTML = {
+            type: 'html',
+            inline: false,
+            pre: true,
+            text: tk.text,
+          };
+
+          content.push(node);
         }
 
       } else {

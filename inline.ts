@@ -94,6 +94,7 @@ function outputAST(src: string): ast.Children {
 
       if(!isTagFirstLetterUppercase) {
         const node: ast.HTML = {
+          inline: true,
           type: "html",
           pre: false,
           text: result.raw,
