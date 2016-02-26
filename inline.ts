@@ -102,11 +102,12 @@ function outputAST(src: string): ast.Children {
 
         pushNode(node);
       } else {
+        const { tag, attrs, content } = result;
         const node: ast.JSX = {
           type: "jsx",
-          name: result.tag,
-          attrs: result.attrs,
-          sections: parse(result.content),
+          name: tag,
+          attrs: attrs,
+          sections: content && parse(content),
         };
 
         pushNode(node);
