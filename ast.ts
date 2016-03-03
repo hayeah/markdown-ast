@@ -34,6 +34,10 @@ export interface ContentNode extends Node {
   children: Children,
 }
 
+export function isContentNode(o: any): o is ContentNode {
+  return o.children != null;
+}
+
 export interface IdNode extends Node {
   id: string,
 }
@@ -57,6 +61,11 @@ export interface Heading extends TextNode {
   id: string,
   depth: number,
 }
+
+export function isHeading(o: any): o is Heading {
+  return o.type === NodeTypes.heading;
+}
+
 
 export interface Link extends Node {
   type: "link",
