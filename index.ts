@@ -1,4 +1,4 @@
 export { walk } from "./walk";
-import * as _ast from "./ast";
 
-export const ast = _ast;
+export * from "./ast";
+export * from "./parser";

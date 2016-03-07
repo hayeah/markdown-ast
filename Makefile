@@ -1,3 +1,7 @@
+.PHONY: build
+build:
+	qpack build index@node --no-source-map
+
 .PHONY: setup
 setup:
 	npm install
