@@ -1,6 +1,6 @@
 {
   "name": "markdownx-ast",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "",
   "main": "index.js",
   "directories": {
