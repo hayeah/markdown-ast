@@ -1,6 +1,6 @@
 .PHONY: build
 build:
-	qpack build index@node --no-source-map --output lib
+	qpack build index@node --no-source-map --output lib --no-es6
 
 .PHONY: setup
 setup:
