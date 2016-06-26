@@ -33,10 +33,14 @@ function _parse(tokens: tk.Token[]): ast.Section[] {
   // dup tokens
   tokens = tokens.reverse();
   function popToken(): tk.Token {
-    return tokens.pop();
+    const token = tokens.pop();
+    if(token == null) {
+      throw new Error("End of input");
+    }
+    return token;
   }
 
-  function peekToken(): tk.Token {
+  function peekToken(): tk.Token | null {
     if (tokens.length == 0) {
       return null;
     }
@@ -46,11 +50,8 @@ function _parse(tokens: tk.Token[]): ast.Section[] {
   function parseListItem(): ast.ListItem {
     const start = <tk.ListItemStartToken> popToken();
 
-
-
     let children;
     let looseItem = false;
-
 
     if(start.type === tk.Types.loose_item_start) {
       looseItem = true;
@@ -60,9 +61,9 @@ function _parse(tokens: tk.Token[]): ast.Section[] {
           // Add space to prevent text strings from being joined together.
           return `${node} `;
         } else {
-          if(node.type === "space") {
+          if(node.type === ast.NodeTypes.space) {
             const newline: ast.NewLine = {
-              type: "newline",
+              type: ast.NodeTypes.newline,
             };
 
             return newline;
@@ -90,11 +91,10 @@ function _parse(tokens: tk.Token[]): ast.Section[] {
     // "list_start"
     let {ordered} = <tk.ListStart>popToken();
 
-
-    let items = [];
-    while (tokens.length > 0) {
-      let token = peekToken();
-      let {type} = token;
+    let items: Node[] = [];
+    let token = peekToken()
+    while (token) {
+      let { type } = token;
 
       if (type === tk.Types.list_end) {
         popToken();
@@ -102,9 +102,15 @@ function _parse(tokens: tk.Token[]): ast.Section[] {
       } else if (tk.isListItemStartToken(token)) {
         items.push(parseListItem());
       }
+
+      token = popToken();
     }
 
-    return { type: NodeTypes.list, ordered, items };
+    return {
+      type: NodeTypes.list,
+      ordered,
+      items
+    };
   }
 
   function parseBlockQuote(): ast.BlockQuote {
@@ -120,7 +126,7 @@ function _parse(tokens: tk.Token[]): ast.Section[] {
   }
 
   function parseSection(): ast.Section {
-    let token = peekToken();
+    let token = popToken();
 
     let id: string;
 
@@ -226,7 +232,7 @@ function _parse(tokens: tk.Token[]): ast.Section[] {
           const tk = <tk.HTML> tokens.pop();
 
           const node: ast.HTML = {
-            type: 'html',
+            type: ast.NodeTypes.html,
             inline: false,
             pre: true,
             text: tk.text,
@@ -236,7 +242,8 @@ function _parse(tokens: tk.Token[]): ast.Section[] {
         }
 
       } else {
-        content.push(tokens.pop());
+        throw new Error(`unknown token type: ${token.type}`);
+        // content.push(popToken());
       }
     }
   }

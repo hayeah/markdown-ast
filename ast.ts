@@ -1,10 +1,6 @@
 // Abstract Sytnax Tree for Markdown Document
 
-export interface Node {
-  type: string,
-}
-
-export const NodeTypes = {
+interface Types {
   document: "document",
   heading: "heading",
   section: "section",
@@ -17,133 +13,169 @@ export const NodeTypes = {
   i18n: "i18n",
   blockquote: "blockquote",
   newline: "newline",
+  space: "space",
+}
+
+// A hack to get string enums in TypeScript...
+export const NodeTypes: Types = {
+  document: "document",
+  heading: "heading",
+  section: "section",
+  list: "list",
+  list_item: "list-item",
+  paragraph: "paragraph",
+  code: "code",
+  html: "html",
+  jsx: "jsx",
+  i18n: "i18n",
+  blockquote: "blockquote",
+  newline: "newline",
+  space: "space",
 }
 
 export type InlineItem = Node | string;
 export type Children = InlineItem[];
 
-export interface NewLine extends Node {
+export type Node =
+  NewLine |
+  Space |
+  List |
+  ListItem |
+  Paragraph |
+  Heading |
+  BlockQuote |
+  JSX |
+  HTML
+  ;
+
+export interface NewLine {
   type: "newline";
 }
 
-export interface TextNode extends Node {
-  text: string,
+export interface Space {
+  type: "space";
 }
 
-export interface ContentNode extends Node {
-  children: Children,
-}
+// export interface TextNode {
+//   text: string,
+// }
 
-export function isContentNode(o: any): o is ContentNode {
-  return o.children != null;
-}
+// export interface ContentNode {
+//   children: Children,
+// }
 
-export interface IdNode extends Node {
-  id: string,
-}
+// export function isContentNode(o: any): o is ContentNode {
+//   return o.children != null;
+// }
 
-export function isIdNode(o: any): o is IdNode {
-  return o.id != null;
-}
+// export interface IdNode {
+//   id: string,
+// }
 
-export function isTextNode(o: any): o is TextNode {
-  return o.text != null;
-}
+// export function isIdNode(o: any): o is IdNode {
+//   return o.id != null;
+// }
 
-export interface Paragraph extends ContentNode {
+// export function isTextNode(o: any): o is TextNode {
+//   return o.text != null;
+// }
+
+export interface Paragraph {
   type: "paragraph",
+  children: Children,
 };
 
-export type KeyNode = TextNode | IdNode;
+// export type KeyNode = TextNode | IdNode;
 
-export interface Heading extends TextNode {
+export interface Heading {
   // a unique ID for the whole markdown document
+  type: "heading",
   id: string,
   depth: number,
+  text: string;
 }
 
-export function isHeading(o: any): o is Heading {
-  return o.type === NodeTypes.heading;
-}
-
-
-export interface Link extends Node {
+export interface Link {
   type: "link",
   caption: string,
   href: string,
   title?: string,
 }
 
-export interface Image extends Node {
+export interface Image {
   type: "image",
   caption: string,
   href: string,
   title?: string,
 }
 
-export interface InlineCode extends TextNode {
+export interface InlineCode {
   type: "inline-code",
+  text: string;
 }
 
-export interface Strong extends TextNode {
+export interface Strong {
   type: "strong",
+  text: string;
 }
 
-export interface Emphasis extends TextNode {
+export interface Emphasis {
   type: "emphasis",
+  text: string;
 }
 
-
-export interface Code extends TextNode {
+export interface Code {
+  type: "code",
   lang: string,
+  text: string;
 }
 
-export interface HTML extends TextNode {
+export interface HTML {
+  type: "html",
   inline: boolean,
   pre: boolean,
+  text: string;
 }
 
-export interface JSX extends Node {
+export interface JSX {
   type: "jsx";
   name: string;
   attrs: { [key: string]: string | boolean };
   sections?: Section[];
 }
 
-export interface List extends Node {
+export interface List {
+  type: "list",
   ordered: boolean,
   items: Node[],
 }
 
-export interface ListItem extends ContentNode {
+export interface ListItem {
+  type: "list-item";
+  children: Children;
   isBlock: boolean;
 }
 
-export function isListItem(o: Node): o is ListItem {
-  return o.type == NodeTypes.list_item;
+// export function isListItem(o: Node): o is ListItem {
+//   return o.type == NodeTypes.list_item;
+// }
+
+// export function isList(o: Node): o is List {
+//   return o.type == NodeTypes.list;
+// }
+
+export interface Section {
+  type: "section";
+  id: string;
+  children: Children;
 }
 
-export function isList(o: Node): o is List {
-  return o.type == NodeTypes.list;
-}
-
-export interface Section extends ContentNode {
-  id: string,
-}
-
-export interface Document extends Node {
+export interface Document {
   type: "document",
   children: Section[],
 }
 
-// export type Document = Section[];
-
-// export interface i18n extends Node {
-//   id: string,
-//   lang: string,
-//   sections: Section[],
-// }
-
-export interface BlockQuote extends ContentNode {
-  type: "blockquote",
+export interface BlockQuote {
+  type: "blockquote";
+  children: Children;
 }
