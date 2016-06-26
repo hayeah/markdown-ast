@@ -27,8 +27,9 @@ function _parse(tokens: tk.Token[]): ast.Section[] {
 
   let ensureUnique = makeEnsureUnique();
 
-  // dup tokens
+  // Reverse and dupplicate tokens. Use `pop` to get the next token.
   tokens = tokens.reverse();
+
   function popToken(): tk.Token {
     const token = tokens.pop();
     if (token == null) {
@@ -44,14 +45,29 @@ function _parse(tokens: tk.Token[]): ast.Section[] {
     return tokens[tokens.length - 1];
   }
 
-  function parseListItem(): ast.ListItem {
-    const start = <tk.ListItemStartToken>popToken();
+  function assertPopToken(context: string, acceptableTypes: string[]) {
+    const token = popToken();
+    assertTokenType(context, token, acceptableTypes);
+    return token;
+  }
 
-    let children;
-    let looseItem = false;
+  function assertTokenType(context: string, token: tk.Token, acceptableTypes: string[]): void {
+    if (acceptableTypes.indexOf(token.type) === -1) {
+      throw new Error(`Parsing ${context}. Expected ${acceptableTypes}. Got ${token.type}`);
+    }
+  }
+
+  function parseListItem(): ast.ListItem {
+    const start = <tk.ListItemStart | tk.ListLooseItemStart> assertPopToken("ListItem", [
+      tk.Types.list_item_start,
+      tk.Types.loose_item_start
+    ]);
+
+    let children: ast.Children;
+    let isBlock = false;
 
     if (start.type === tk.Types.loose_item_start) {
-      looseItem = true;
+      isBlock = true;
       // Kludgy handling of "loose items". The tokens returned by the lexer are messy to begin with.
       children = parseContent(tk.Types.list_item_end, [], true).map(node => {
         if (typeof node === "string") {
@@ -73,35 +89,32 @@ function _parse(tokens: tk.Token[]): ast.Section[] {
       children = parseContent(tk.Types.list_item_end);
     }
 
-
-    popToken(); // list_item_end
+    assertPopToken("ListItem", [tk.Types.list_item_end]);
 
     return {
       type: ast.Types.list_item,
       children,
-      isBlock: looseItem,
+      isBlock,
     };
   }
 
 
   function parseList(): ast.List {
-    // "list_start"
-    let {ordered} = <tk.ListStart>popToken();
+    const { ordered } = <tk.ListStart> assertPopToken("List", [tk.Types.list_start]);
 
     let items: ast.Node[] = [];
-    let token = peekToken()
-    while (token) {
-      let { type } = token;
 
-      if (type === tk.Types.list_end) {
-        popToken();
-        break;
-      } else if (tk.isListItemStartToken(token)) {
+    while (true) {
+      let token = peekToken()
+
+      if (token && token.type === tk.Types.list_item_start) {
         items.push(parseListItem());
+      } else {
+        break;
       }
-
-      token = popToken();
     }
+
+    assertPopToken("List", [tk.Types.list_end]);
 
     return {
       type: ast.Types.list,
@@ -112,9 +125,9 @@ function _parse(tokens: tk.Token[]): ast.Section[] {
 
   function parseBlockQuote(): ast.BlockQuote {
 
-    popToken(); // blockquote_start
+    assertPopToken("BlockQuote", [tk.Types.blockquote_start]);
     let children = parseContent(tk.Types.blockquote_end);
-    popToken(); // blockquote_end
+    assertPopToken("BlockQuote", [tk.Types.blockquote_end]);
 
     return {
       type: "blockquote",
@@ -197,20 +210,22 @@ function _parse(tokens: tk.Token[]): ast.Section[] {
         return content;
       }
 
-      if (token.type == endType) {
+      const type = token.type;
+
+      if (type == endType) {
         return content
       }
 
-      // Get rid of space, except when it matters (list items...)
-      if (token.type === "space" && !preserveSpace) {
-        tokens.pop();
+      // Get rid of space, except when it matters (in list items...)
+      if (!preserveSpace && type == tk.Types.space) {
+        popToken();
         continue;
       }
 
-      if (tk.isListStartToken(token)) {
+      if (token.type === tk.Types.list_start) {
         content.push(parseList());
-      } else if (tk.isText(token)) {
-        tokens.pop();
+      } else if (token.type === tk.Types.text) {
+        popToken();
         let children = parseInline(token.text);
         content.push(...children);
       } else if (token.type === tk.Types.paragraph) {
@@ -239,8 +254,9 @@ function _parse(tokens: tk.Token[]): ast.Section[] {
         }
 
       } else {
-        throw new Error(`unknown token type: ${token.type}`);
-        // content.push(popToken());
+        // Inline items here. We can use tokens as nodes.
+        popToken();
+        content.push(token as ast.Node);
       }
     }
   }
@@ -248,8 +264,6 @@ function _parse(tokens: tk.Token[]): ast.Section[] {
   while (tokens.length > 0) {
     sections.push(parseSection())
   }
-
-  // createSection();
 
   return sections;
 }
