@@ -6,7 +6,7 @@
   "bundle": "typings/tsd.d.ts",
   "installed": {
     "node/node.d.ts": {
-      "commit": "5d0f2126c8dac8fce0ff020218aea06607213b0d"
+      "commit": "993f83fe84ba1381d006772dc3343e1b8d5304f3"
     },
     "assertion-error/assertion-error.d.ts": {
       "commit": "bd269cad4cb2b495f940c7b6afc5825d568029be"
@@ -16,6 +16,12 @@
     },
     "mocha/mocha.d.ts": {
       "commit": "bd269cad4cb2b495f940c7b6afc5825d568029be"
+    },
+    "q/Q.d.ts": {
+      "commit": "993f83fe84ba1381d006772dc3343e1b8d5304f3"
+    },
+    "q-io/Q-io.d.ts": {
+      "commit": "993f83fe84ba1381d006772dc3343e1b8d5304f3"
     }
   }
 }
