@@ -1,25 +1,12 @@
 const glob = require("glob");
 
-import "babel-polyfill";
-import * as os from "nolang/os";
-import * as io from "nolang/io";
+import { parse } from "./parser";
 
-import {parse} from "./parser";
+import * as qfs from "q-io/fs";
 
 import * as path from "path";
 
 main();
-
-function exitIfError(err: Error) {
-  if (err) {
-
-    console.log(err);
-    if(err.stack) {
-      console.log(err.stack);
-    }
-    process.exit(1);
-  }
-}
 
 async function getExampleFiles(): Promise<string[]> {
   let files = process.argv.slice(2);
@@ -44,31 +31,23 @@ async function main() {
   try {
     let files = await getExampleFiles();
     console.log("generate test output for", files);
-    files.forEach(generateOutputForExample);
+    for (let file of files) {
+      await generateOutputForExample(file);
+    }
   } catch(err) {
-    exitIfError(err);
+    console.log(err);
+    process.exit(1);
   }
 }
 
 async function generateOutputForExample(file: string) {
-  var [r, err] = await os.Open(file);
-  exitIfError(err);
+  const outputFile = `${file}.json`;
 
-  var [src, err] = await io.ReadFull(r);
-  exitIfError(err);
+  const src: string = await qfs.read(file);
+  const ast = parse(src);
 
-  try {
-    var tree = parse(src);
-  } catch(err) {
-    exitIfError(err);
-  }
+  const output = JSON.stringify(ast, null, 2);
+  await qfs.write(outputFile, output)
 
-
-  var [w, err] = await os.Create(file + ".json");
-  exitIfError(err);
-
-  w.Write(JSON.stringify(tree, null, 2))
-
-  var err = await w.Close();
-  exitIfError(err);
+  return;
 }
