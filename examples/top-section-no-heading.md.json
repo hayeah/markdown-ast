@@ -15,7 +15,7 @@
     "type": "section",
     "children": [
       {
-        "id": "second-section",
+        "id": "Second-Section",
         "type": "heading",
         "depth": 1,
         "text": "Second Section"
@@ -27,6 +27,6 @@
         ]
       }
     ],
-    "id": "second-section"
+    "id": "Second-Section"
   }
 ]
