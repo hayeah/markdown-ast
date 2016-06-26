@@ -1,6 +1,6 @@
 // Abstract Sytnax Tree for Markdown Document
 
-interface Types {
+interface TypeNames {
   document: "document",
   heading: "heading",
   section: "section",
@@ -17,7 +17,7 @@ interface Types {
 }
 
 // A hack to get string enums in TypeScript...
-export const NodeTypes: Types = {
+export const Types: TypeNames = {
   document: "document",
   heading: "heading",
   section: "section",

@@ -58,9 +58,9 @@ function _parse(tokens: tk.Token[]): ast.Section[] {
           // Add space to prevent text strings from being joined together.
           return `${node} `;
         } else {
-          if (node.type === ast.NodeTypes.space) {
+          if (node.type === ast.Types.space) {
             const newline: ast.NewLine = {
-              type: ast.NodeTypes.newline,
+              type: ast.Types.newline,
             };
 
             return newline;
@@ -77,7 +77,7 @@ function _parse(tokens: tk.Token[]): ast.Section[] {
     popToken(); // list_item_end
 
     return {
-      type: ast.NodeTypes.list_item,
+      type: ast.Types.list_item,
       children,
       isBlock: looseItem,
     };
@@ -104,7 +104,7 @@ function _parse(tokens: tk.Token[]): ast.Section[] {
     }
 
     return {
-      type: ast.NodeTypes.list,
+      type: ast.Types.list,
       ordered,
       items
     };
@@ -139,10 +139,10 @@ function _parse(tokens: tk.Token[]): ast.Section[] {
       id = "_top";
     }
 
-    parseContent(ast.NodeTypes.heading, content);
+    parseContent(ast.Types.heading, content);
 
     return {
-      type: ast.NodeTypes.section,
+      type: ast.Types.section,
       children: content,
       id,
     }
@@ -154,7 +154,7 @@ function _parse(tokens: tk.Token[]): ast.Section[] {
 
     return {
       id,
-      type: ast.NodeTypes.heading,
+      type: ast.Types.heading,
       depth: token.depth,
       text: token.text,
     };
@@ -229,7 +229,7 @@ function _parse(tokens: tk.Token[]): ast.Section[] {
           const tk = <tk.HTML>tokens.pop();
 
           const node: ast.HTML = {
-            type: ast.NodeTypes.html,
+            type: ast.Types.html,
             inline: false,
             pre: true,
             text: tk.text,
