@@ -8,9 +8,6 @@ import * as tk from "./token";
 
 import {parseInline} from "./inline";
 
-import {Node} from "./ast";
-const {NodeTypes} = ast;
-
 import { parseXMLHeredoc } from "./parseXMLHeredoc";
 
 export default parse;
@@ -34,7 +31,7 @@ function _parse(tokens: tk.Token[]): ast.Section[] {
   tokens = tokens.reverse();
   function popToken(): tk.Token {
     const token = tokens.pop();
-    if(token == null) {
+    if (token == null) {
       throw new Error("End of input");
     }
     return token;
@@ -48,20 +45,20 @@ function _parse(tokens: tk.Token[]): ast.Section[] {
   }
 
   function parseListItem(): ast.ListItem {
-    const start = <tk.ListItemStartToken> popToken();
+    const start = <tk.ListItemStartToken>popToken();
 
     let children;
     let looseItem = false;
 
-    if(start.type === tk.Types.loose_item_start) {
+    if (start.type === tk.Types.loose_item_start) {
       looseItem = true;
       // Kludgy handling of "loose items". The tokens returned by the lexer are messy to begin with.
       children = parseContent(tk.Types.list_item_end, [], true).map(node => {
-        if(typeof node === "string") {
+        if (typeof node === "string") {
           // Add space to prevent text strings from being joined together.
           return `${node} `;
         } else {
-          if(node.type === ast.NodeTypes.space) {
+          if (node.type === ast.NodeTypes.space) {
             const newline: ast.NewLine = {
               type: ast.NodeTypes.newline,
             };
@@ -80,7 +77,7 @@ function _parse(tokens: tk.Token[]): ast.Section[] {
     popToken(); // list_item_end
 
     return {
-      type: NodeTypes.list_item,
+      type: ast.NodeTypes.list_item,
       children,
       isBlock: looseItem,
     };
@@ -91,7 +88,7 @@ function _parse(tokens: tk.Token[]): ast.Section[] {
     // "list_start"
     let {ordered} = <tk.ListStart>popToken();
 
-    let items: Node[] = [];
+    let items: ast.Node[] = [];
     let token = peekToken()
     while (token) {
       let { type } = token;
@@ -107,7 +104,7 @@ function _parse(tokens: tk.Token[]): ast.Section[] {
     }
 
     return {
-      type: NodeTypes.list,
+      type: ast.NodeTypes.list,
       ordered,
       items
     };
@@ -131,7 +128,7 @@ function _parse(tokens: tk.Token[]): ast.Section[] {
     let id: string;
 
     let heading: ast.Heading;
-    let content: Node[] = [];
+    let content: ast.Node[] = [];
 
     if (token.type === tk.Types.heading) {
       let headingToken = <tk.Heading>token;
@@ -145,7 +142,7 @@ function _parse(tokens: tk.Token[]): ast.Section[] {
     parseContent(ast.NodeTypes.heading, content);
 
     return {
-      type: NodeTypes.section,
+      type: ast.NodeTypes.section,
       children: content,
       id,
     }
@@ -174,7 +171,7 @@ function _parse(tokens: tk.Token[]): ast.Section[] {
 
   // Treat uppercase HTML tags as components. Parse text content recursively.
   function parseComponent(): ast.JSX {
-    const { text } = <tk.HTML> tokens.pop();
+    const { text } = <tk.HTML>tokens.pop();
     const [doc, _] = parseXMLHeredoc(text);
     const { tag, attrs, content } = doc;
 
@@ -184,7 +181,7 @@ function _parse(tokens: tk.Token[]): ast.Section[] {
       attrs,
     }
 
-    if(content) {
+    if (content) {
       node.sections = parse(content);
     }
 
@@ -223,13 +220,13 @@ function _parse(tokens: tk.Token[]): ast.Section[] {
       } else if (token.type === tk.Types.blockquote_start) {
         content.push(parseBlockQuote());
       } else if (token.type === tk.Types.html) {
-        const { text } = <tk.HTML> token;
-        if(text.match(/^<[A-Z]/)) {
+        const { text } = <tk.HTML>token;
+        if (text.match(/^<[A-Z]/)) {
           // treat uppercase tags as components
           content.push(parseComponent());
         } else {
           // normal html node
-          const tk = <tk.HTML> tokens.pop();
+          const tk = <tk.HTML>tokens.pop();
 
           const node: ast.HTML = {
             type: ast.NodeTypes.html,
