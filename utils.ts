@@ -1,10 +1,9 @@
-// let {kebabCase} = require("lodash");
-import {kebabCase} from "lodash";
+const replaceNonAlphaNumRE = /[^a-z0-9]/ig;
 
 export function makeEnsureUnique() {
   let ids: { [key: string]: boolean } = {};
   return function ensureUnique(str: string): string {
-    let id = kebabCase(str);
+    let id = str.replace(replaceNonAlphaNumRE, "-");
     let i = 1;
     while (true) {
       let tryId = id;
