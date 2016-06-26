@@ -58,7 +58,7 @@ function _parse(tokens: tk.Token[]): ast.Section[] {
   }
 
   function parseListItem(): ast.ListItem {
-    const start = <tk.ListItemStart | tk.ListLooseItemStart> assertPopToken("ListItem", [
+    const start = <tk.ListItemStart | tk.ListLooseItemStart>assertPopToken("ListItem", [
       tk.Types.list_item_start,
       tk.Types.loose_item_start
     ]);
@@ -100,14 +100,16 @@ function _parse(tokens: tk.Token[]): ast.Section[] {
 
 
   function parseList(): ast.List {
-    const { ordered } = <tk.ListStart> assertPopToken("List", [tk.Types.list_start]);
+    const { ordered } = <tk.ListStart>assertPopToken("List", [tk.Types.list_start]);
 
     let items: ast.Node[] = [];
 
     while (true) {
       let token = peekToken()
 
-      if (token && token.type === tk.Types.list_item_start) {
+      if (token &&
+        (token.type === tk.Types.list_item_start ||
+          token.type === tk.Types.loose_item_start)) {
         items.push(parseListItem());
       } else {
         break;

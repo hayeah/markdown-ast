@@ -30,8 +30,9 @@ async function getExampleFiles(): Promise<string[]> {
 async function main() {
   try {
     let files = await getExampleFiles();
-    console.log("generate test output for", files);
+
     for (let file of files) {
+      console.log("Generate output", file);
       await generateOutputForExample(file);
     }
   } catch(err) {
