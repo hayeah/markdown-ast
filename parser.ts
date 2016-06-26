@@ -6,7 +6,7 @@ let {makeEnsureUnique} = require("./utils");
 import * as ast from "./ast";
 import * as tk from "./token";
 
-import {parseInline} from "./inline";
+import { parseInline } from "./inline";
 
 import { parseXMLHeredoc } from "./parseXMLHeredoc";
 
@@ -136,14 +136,14 @@ function _parse(tokens: tk.Token[]): ast.Section[] {
   }
 
   function parseSection(): ast.Section {
-    let token = popToken();
+    let token = peekToken();
 
     let id: string;
 
     let heading: ast.Heading;
     let content: ast.Node[] = [];
 
-    if (token.type === tk.Types.heading) {
+    if (token && token.type === tk.Types.heading) {
       let headingToken = <tk.Heading>token;
       heading = parseHeading();
       id = heading.id;
@@ -232,7 +232,7 @@ function _parse(tokens: tk.Token[]): ast.Section[] {
         content.push(parseParagraph());
       } else if (token.type === tk.Types.heading) {
         content.push(parseHeading());
-      } else if (token.type === tk.Types.blockquote_start) {
+      } else if (token.type == tk.Types.blockquote_start) {
         content.push(parseBlockQuote());
       } else if (token.type === tk.Types.html) {
         const { text } = <tk.HTML>token;
