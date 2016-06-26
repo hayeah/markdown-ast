@@ -36,6 +36,7 @@ export const NodeTypes: Types = {
 export type InlineItem = Node | string;
 export type Children = InlineItem[];
 
+// Use the discriminant property `type` to narrow.
 export type Node =
   NewLine |
   Space |
